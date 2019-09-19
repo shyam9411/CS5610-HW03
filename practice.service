@@ -3,14 +3,14 @@ Description=Elixir Practice
 
 [Service]
 Type=simple
-User=practice
-Group=practice
+User=elixirpractice
+Group=elixirpractice
 Restart=on-failure
 Environment=MIX_ENV=prod "PORT=4790"
 Environment=LANG=en_US.UTF-8
 
-WorkingDirectory=/home/practice/elixir-practice
-ExecStart=/bin/bash /home/practice/elixir-practice/start.sh
+WorkingDirectory=/home/elixirpractice/CS5610-HW03/
+ExecStart=/bin/bash /home/elixirpractice/CS5610-HW03/start.sh
 
 [Install]
 WantedBy=multi-user.target
