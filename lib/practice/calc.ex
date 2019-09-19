@@ -4,12 +4,24 @@ defmodule Practice.Calc do
     num
   end
 	
-  def nextOperatorInPrecedence(op) do
+  def nextOperatorInPrecedence(list) do
+	mulIndex = Enum.find_index(list, fn x -> x == "*" end)
+	divIndex = Enum.find_index(list, fn x -> x == "/" end)
+	subIndex = Enum.find_index(list, fn x -> x == "-" end)
+	addIndex = Enum.find_index(list, fn x -> x == "+" end)
+	
 	cond do
-		op == "*" -> "/"
-		op == "/" -> "+"
-		op == "+" -> "-"
-		op == "-" -> :ok
+		mulIndex != :nil and divIndex != :nil and mulIndex < divIndex -> "*"
+                mulIndex != :nil and divIndex != :nil and mulIndex > divIndex -> "/"
+                mulIndex == :nil and divIndex != :nil -> "/"
+                mulIndex != :nil and divIndex == :nil -> "*"
+		mulIndex == :nil and divIndex == :nil -> (
+				cond do
+				subIndex == :nil and addIndex == :nil -> :ok
+				subIndex != :nil and addIndex == :nil -> "-"
+				subIndex == :nil and addIndex != :nil -> "+"
+				subIndex != :nil and addIndex != :nil and subIndex < addIndex -> "-"
+				subIndex != :nil and addIndex != :nil and subIndex > addIndex -> "+"					     end)
 	end
   end
 
@@ -40,9 +52,9 @@ conversion of float to a string was referred from: https://stackoverflow.com/que
   def evaluvate(list, op) when length(list) > 1 do
 	case op != :ok do
 		true -> (index = Enum.find_index(list, fn x -> x == op end)
-		case index == :nil do
-			true -> evaluvate(list, nextOperatorInPrecedence(op))
-			false -> (
+			case index == :nil do
+				true -> evaluvate(list, nextOperatorInPrecedence(list))
+				false -> (
 					opIndex = Enum.find_index(list, fn x -> x == op end)
 					left = Enum.at(list, opIndex - 1)
 					right = Enum.at(list, opIndex + 1)
@@ -50,36 +62,21 @@ conversion of float to a string was referred from: https://stackoverflow.com/que
 					newList = List.replace_at(list, opIndex, Float.to_string(result))
 					|> List.delete_at(opIndex + 1)
 					|> List.delete_at(opIndex - 1)
-					mulIndex = Enum.find_index(newList, fn x -> x == "*" end)
-					divIndex = Enum.find_index(newList, fn x -> x == "/" end)
-					op = cond do
-						mulIndex == :nil and divIndex == :nil -> "+"
-						mulIndex != :nil and divIndex != :nil and mulIndex < divIndex -> "*"
-						mulIndex != :nil and divIndex != :nil and mulIndex > divIndex -> "/"
-						mulIndex == :nil and divIndex != :nil -> "/"
-						mulIndex != :nil and divIndex == :nil -> "*"
-					end
-					evaluvate(newList, op)
-				 )
-		end)
-		false -> evaluvate(list, op)
+					evaluvate(newList, nextOperatorInPrecedence(list))
+					)
+			end)
+		false -> (
+				[hd | tl] = list
+				hd
+			)
 	end
   end
 
   def calc(expr) do
 	listArr = String.split(expr, " ")
-	mulIndex = Enum.find_index(listArr, fn x -> x == "*" end)
-	divIndex = Enum.find_index(listArr, fn x -> x == "/" end)
-	op = cond do
-		mulIndex == :nil and divIndex == :nil -> "+"
-		mulIndex != :nil and divIndex != :nil and mulIndex < divIndex -> "*"
-		mulIndex != :nil and divIndex != :nil and mulIndex > divIndex -> "/"
-		mulIndex == :nil and divIndex != :nil -> "/"
-		divIndex == :nil and mulIndex != :nil -> "*"
-	end
+	op = nextOperatorInPrecedence(listArr)
 	result = evaluvate(listArr, op)	
-	{num, _} = Float.parse(result)
-	num
+	parse_float(result)
   end
 end
 

@@ -1,7 +1,7 @@
 defmodule Practice.PracticeTest do
   use ExUnit.Case
   import Practice
-
+	
   test "double some numbers" do
     assert double(4) == 8
     assert double(3.5) == 7.0
@@ -16,7 +16,7 @@ defmodule Practice.PracticeTest do
     assert factor(Integer.to_string(226037113)) == [3449, 65537]
     assert factor(Integer.to_string(1575)) == [3,3,5,5,7]
   end
-
+	
   test "evaluate some expressions" do
     assert calc("5") == 5
     assert calc("5 + 1") == 6
@@ -26,6 +26,7 @@ defmodule Practice.PracticeTest do
     assert calc("5 * 3 + 8") == 23
     assert calc("8 + 5 * 3") == 23
     assert calc("1 + 2 + 3") == 6
+    assert calc("1 - 2 * 5 + 2") == -7
   end
 
   test "evaluvate palindrome strings" do
