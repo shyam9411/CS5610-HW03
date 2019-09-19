@@ -1,0 +1,16 @@
+[Unit]
+Description=Elixir Practice
+
+[Service]
+Type=simple
+User=practice
+Group=practice
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4790"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/practice/elixir-practice
+ExecStart=/bin/bash /home/practice/elixir-practice/start.sh
+
+[Install]
+WantedBy=multi-user.target

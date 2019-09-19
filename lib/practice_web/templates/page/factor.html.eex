@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="column">
+    <p><%= link "← go back", to: "/" %></p>
+    <h2>Prime Factors are</h2>
+    <% # Attribution: Enumerating list to display p tag were referred from: https://stackoverflow.com/questions/28459493/iterate-over-list-in-embedded-elixir %>
+    <%= Enum.map(@y, fn(item) -> %>
+    <p><%= item %></p>
+    <% end) %>
+  </div>
+</div>
+

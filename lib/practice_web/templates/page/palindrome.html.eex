@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="column">
+    <p><%= link "← go back", to: "/" %></p>
+    <h2>Palindrome Result for the given string is: </h2>
+
+    <p><%= @y %></p>
+  </div>
+</div>
