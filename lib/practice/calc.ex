@@ -53,7 +53,7 @@ conversion of float to a string was referred from: https://stackoverflow.com/que
 					mulIndex = Enum.find_index(newList, fn x -> x == "*" end)
 					divIndex = Enum.find_index(newList, fn x -> x == "/" end)
 					op = cond do
-						mulIndex == :nil and divIndex == :nil -> nextOperatorInPrecedence(op)
+						mulIndex == :nil and divIndex == :nil -> "+"
 						mulIndex != :nil and divIndex != :nil and mulIndex < divIndex -> "*"
 						mulIndex != :nil and divIndex != :nil and mulIndex > divIndex -> "/"
 						mulIndex == :nil and divIndex != :nil -> "/"
