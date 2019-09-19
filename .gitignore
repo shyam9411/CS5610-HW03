@@ -1,0 +1,5 @@
+_build/*
+priv/static/*
+deps/*
+assets/package-lock.json
+assets/node_modules/*
